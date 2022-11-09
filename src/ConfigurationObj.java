@@ -16,4 +16,5 @@ public class ConfigurationObj {
 	public Set<Integer> conditionL1 = new HashSet<Integer>();
 	public TimeStampWithID localRequestStamp;
 	public LamportMEAlgo lamp;
+	public String vary;
 }

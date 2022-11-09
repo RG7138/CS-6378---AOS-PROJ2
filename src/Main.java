@@ -131,6 +131,7 @@ public class Main {
 		
 		int count = 1;
 		int nodeId = 0;
+		String vary = "e";
 		String configfile = "config.txt";
 		if(args.length > 0){
 			nodeId = Integer.parseInt(args[0]);
@@ -138,10 +139,13 @@ public class Main {
 		if(args.length > 1){
 			configfile = args[1];
 		}
+		if(args.length > 2) {
+			vary = args[2];
+		}
 		
 		ConfigurationObj nodeobj = new ConfigurationObj();
 		nodeobj = ParseConfigFile.parseFile(args[1],nodeId);
-		
+		nodeobj.vary = vary;
 		//Create a server socket 
 		//ServerConnectionHelperClass server = new ServerConnectionHelperClass(nodeobj);
 		

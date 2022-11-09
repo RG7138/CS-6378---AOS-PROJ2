@@ -64,8 +64,15 @@ public class AlgoSuperClass {
 	public void run() {
 		for(int i=0;i<obj.numRequest;++i) {
 			
-			int randDelay =  nextInterRequestDelay();
-			int csexect = nextcsExecutionTimer();
+			int randDelay = RequestDelay;
+			int csexect = csexecutiontime;
+			
+			if(obj.vary.equals("e")) {
+				csexect = nextcsExecutionTimer();
+			}
+			else if(obj.vary.equals("r")) {
+				randDelay = nextInterRequestDelay();
+			}
 			
 			try {
 				Thread.sleep(randDelay);
@@ -82,7 +89,7 @@ public class AlgoSuperClass {
 				
 				//System.out.println(grantedCSTime);
 				if(i%10 == 0) {
-					System.out.println("application enter cs! at "+(i+1)+"times with execution time "+csexect+"and interrequest delay"+randDelay);
+					System.out.println("Critical Section Exec. No.: "+(i+1)+" with execution time "+csexect+"and interrequest delay"+randDelay);
 				}
 				
 				MyVector enterCSTimeStamp = MyVector.copy(VectorClockService.getInstance().toString());
@@ -127,13 +134,27 @@ public class AlgoSuperClass {
 	public int nextInterRequestDelay(){
 		
 		Random rand  = new Random();
-		return (int) (-RequestDelay*Math.log(rand.nextDouble()));
+		
+		int[] vary = {0,2,4,6,8,10}; 
+		
+		int x = rand.nextInt(6);
+		
+		return vary[x];
+		
+		//return RequestDelay;
 	}
 	
 	public int nextcsExecutionTimer(){
 		
 		Random rand  = new Random();
-		return (int) (-csexecutiontime*Math.log(rand.nextDouble()));
+		
+		int[] vary = {0,2,4,6,8,10}; 
+		
+		int x = rand.nextInt(6);
+		
+		return vary[x];
+		
+		//return csexecutiontime;
 	}
 	
 }
