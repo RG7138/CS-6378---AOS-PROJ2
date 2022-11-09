@@ -4,7 +4,7 @@ import java.util.Vector;
 public class Main {
 	
 	public static TimeInterval timeArray[][] = null;
-	public static TimeInterval sorted[] = null;
+	public static TimeInterval sortedtimeArray[] = null;
 	public static double MeanSyncDelay = 0;
 	public static double MeanExecTime = 0;
 	
@@ -18,11 +18,11 @@ public class Main {
 		}
 		while(i<len){
 			if(MyVector.compare(wholeData[i].enterCSTimeStamp, wholeData[i].leaveCSTimeStamp) != -1 ) {
-				System.out.println(i);
+				System.out.println("Issue at line:"+i);
 				return false;
 			}
 			if(MyVector.compare(wholeData[i].enterCSTimeStamp,wholeData[i-1].leaveCSTimeStamp) != 1) {
-				System.out.println(i);
+				System.out.println("Issue at line:"+i);
 				return false;
 			}
 			i++;
@@ -37,29 +37,29 @@ public class Main {
 		long ExecTime = 0;
 		int i=0;
 		
-		while(i<sorted.length-1) {
+		while(i<sortedtimeArray.length-1) {
 			
-			SyncDelay += sorted[i+1].enterCSSystemTime - sorted[i].leaveCSSystemTime;
-			ExecTime += sorted[i].leaveCSSystemTime - sorted[i].enterCSSystemTime;
+			SyncDelay += sortedtimeArray[i+1].enterCSSystemTime - sortedtimeArray[i].leaveCSSystemTime;
+			ExecTime += sortedtimeArray[i].leaveCSSystemTime - sortedtimeArray[i].enterCSSystemTime;
 			i++;
 		}
 		
-		MeanExecTime = ExecTime / ((double) (sorted.length-1));
+		MeanExecTime = ExecTime / ((double) (sortedtimeArray.length-1));
 		
-		System.out.println("Mean Exec Time:"+MeanExecTime);
+		System.out.println("Mean Exec Time: "+MeanExecTime);
 		
-		MeanSyncDelay = SyncDelay / ((double) (sorted.length-1));
+		MeanSyncDelay = SyncDelay / ((double) (sortedtimeArray.length-1));
 		
-		System.out.println("Mean Sync Delay:"+MeanSyncDelay);
+		System.out.println("Mean Sync Delay: "+MeanSyncDelay);
 		
 	}
 	
-	static TimeInterval[] megerSortK(TimeInterval array[][], int start, int end){
+	static TimeInterval[] ArrayConv(TimeInterval array[][], int start, int end){
 		int mid = (start+end)/2;
 		if(start >= end) return null;
 		if(start+1==end) return array[start];
-		TimeInterval[] l1 = megerSortK(array, start, mid);
-		TimeInterval[] l2 = megerSortK(array, mid, end);
+		TimeInterval[] l1 = ArrayConv(array, start, mid);
+		TimeInterval[] l2 = ArrayConv(array, mid, end);
 		if(l1==null) return l2;
 		if(l2==null) return l1;
 		TimeInterval newArray[] = new TimeInterval[l1.length+l2.length];
@@ -162,8 +162,8 @@ public class Main {
 		serv.start();
 		
 		
-		VectorClockService.getInstance().init(nodeobj.numNodes, nodeobj.localInfor.nodeId);
-		LamportLogicalClockService.getInstance().refresh();
+		VectorClockHelperClass.getInstance().init(nodeobj.numNodes, nodeobj.localInfor.nodeId);
+		ScalarClockHelperClass.getInstance().refresh();
 		
 		AlgoSuperClass algObj = new AlgoSuperClass(nodeobj, "lamport");
 		
@@ -183,7 +183,7 @@ public class Main {
 //			e.printStackTrace();
 //		}
 		
-		VectorClockService.getInstance().refresh();
+		VectorClockHelperClass.getInstance().refresh();
 		
 		if(nodeId == 0) {
 			try {
@@ -199,17 +199,17 @@ public class Main {
 			
 			System.out.println("For Run No:"+(i+1));
 			
-			PerformanceCalService.getInstance().setDir(System.getProperty("user.dir")+"/");
-			PerformanceCalService.getInstance().init(nodeobj.numRequest,nodeobj.localInfor.nodeId,i+1);
+			SummaryCalHelperClass.getInstance().setDir(System.getProperty("user.dir")+"/");
+			SummaryCalHelperClass.getInstance().init(nodeobj.numRequest,nodeobj.localInfor.nodeId,i+1);
 			
 			if(i!=0) {
-				LamportLogicalClockService.getInstance().refresh();
-				VectorClockService.getInstance().refresh();
+				ScalarClockHelperClass.getInstance().refresh();
+				VectorClockHelperClass.getInstance().refresh();
 				algObj = new AlgoSuperClass(nodeobj, "lamport");
 			}
 			
 			algObj.run();
-			PerformanceFileParser.parseFile(PerformanceCalService.getInstance().curDirectory+"performance_file_node_", nodeobj.numNodes,i+1);
+			FileReader.parseFile(SummaryCalHelperClass.getInstance().curDirectory+"performance_file_node_", nodeobj.numNodes,i+1);
 //			try {
 //				Thread.sleep(10);
 //			} catch (InterruptedException e) {
@@ -220,15 +220,15 @@ public class Main {
 			String file = System.getProperty("user.dir")+"/TimeInterval";
 			
 			VerifyResult(file,nodeobj);
-			sorted = megerSortK(timeArray,0,timeArray.length);
+			sortedtimeArray = ArrayConv(timeArray,0,timeArray.length);
 			
-			if(testCorrect(sorted)) {
+			if(testCorrect(sortedtimeArray)) {
 				System.out.println("\nResult Verified Successfully!!!");
 				calSystemThroughput();
 				System.out.println("------------------------Summary------------------------");
 				
-				System.out.println("Message Complexity:" + PerformanceFileParser.result[0]);
-				System.out.println("Response Time:"+PerformanceFileParser.result[1]);
+				System.out.println("Message Complexity:" + FileReader.result[0]);
+				System.out.println("Response Time:"+FileReader.result[1]);
 				System.out.println("System Throughput per request:" + String.valueOf(1000/(MeanExecTime+MeanSyncDelay)));
 			}
 			else {

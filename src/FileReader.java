@@ -1,7 +1,7 @@
 import java.util.Vector;
 
 
-public class PerformanceFileParser {
+public class FileReader {
 	public static double[] result = new double[2];
 	public static void main(String[] args){		
 		

@@ -1,12 +1,12 @@
 
-public class LamportLogicalClockService {
-	private static LamportLogicalClockService instance = new LamportLogicalClockService();
-	public static LamportLogicalClockService getInstance(){		
+public class ScalarClockHelperClass {
+	private static ScalarClockHelperClass instance = new ScalarClockHelperClass();
+	public static ScalarClockHelperClass getInstance(){		
 		return instance;
 	}
 	
 	int c;
-	public LamportLogicalClockService(){
+	public ScalarClockHelperClass(){
 		c = 1;
 	}
 	

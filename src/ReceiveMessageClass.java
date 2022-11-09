@@ -16,7 +16,7 @@ public class ReceiveMessageClass extends Thread {
 		
 		try {
 			
-			PerformanceCalService.getInstance().addReceiveMessageCount();
+			SummaryCalHelperClass.getInstance().addReceiveMessageCount();
 			MessageStruc msg;
 			msg = (MessageStruc) ois.readObject();
 			
@@ -26,8 +26,8 @@ public class ReceiveMessageClass extends Thread {
 					
 					RequestMsg tmp = (RequestMsg) msg;
 					
-					LamportLogicalClockService.getInstance().receiveAction(tmp.LogicalClockVal);
-					VectorClockService.getInstance().receiveAction(tmp.VectorClockVal);
+					ScalarClockHelperClass.getInstance().receiveAction(tmp.LogicalClockVal);
+					VectorClockHelperClass.getInstance().receiveAction(tmp.VectorClockVal);
 					//System.out.println("Request message received from Node:"+tmp.nodeID);
 					
 					
@@ -38,8 +38,8 @@ public class ReceiveMessageClass extends Thread {
 					
 					
 					ReleaseMsg tmp = (ReleaseMsg) msg;
-					LamportLogicalClockService.getInstance().receiveAction(tmp.LogicalClockVal);
-					VectorClockService.getInstance().receiveAction(tmp.VectorClockVal);
+					ScalarClockHelperClass.getInstance().receiveAction(tmp.LogicalClockVal);
+					VectorClockHelperClass.getInstance().receiveAction(tmp.VectorClockVal);
 					LamportMEAlgo.handleReleaseMsg(nodeObj,tmp);
 					
 				}
@@ -47,8 +47,8 @@ public class ReceiveMessageClass extends Thread {
 					
 					
 					ReplyMsg tmp = (ReplyMsg) msg;
-					LamportLogicalClockService.getInstance().receiveAction(tmp.LogicalClockVal);
-					VectorClockService.getInstance().receiveAction(tmp.VectorClockVal);
+					ScalarClockHelperClass.getInstance().receiveAction(tmp.LogicalClockVal);
+					VectorClockHelperClass.getInstance().receiveAction(tmp.VectorClockVal);
 					LamportMEAlgo.handleReply(nodeObj,tmp);
 				}
 				

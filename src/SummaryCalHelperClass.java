@@ -9,7 +9,7 @@ iments for various values of system parameters
  * 
  *
  */
-public class PerformanceCalService {
+public class SummaryCalHelperClass {
 	
 	private long[] sendMessageCount=null;
 	private long[] receiveMessageCount=null;
@@ -23,8 +23,8 @@ public class PerformanceCalService {
 	public int nodeid;
 	public String curDirectory="";
 	public int RunNo;
-	private static PerformanceCalService instance = new PerformanceCalService();
-	public static PerformanceCalService getInstance(){
+	private static SummaryCalHelperClass instance = new SummaryCalHelperClass();
+	public static SummaryCalHelperClass getInstance(){
 		return instance;
 	}
 	

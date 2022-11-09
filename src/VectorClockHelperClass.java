@@ -1,9 +1,9 @@
-public class VectorClockService {
+public class VectorClockHelperClass {
 	
-	private static VectorClockService instance = new VectorClockService();
-	private VectorClockService(){
+	private static VectorClockHelperClass instance = new VectorClockHelperClass();
+	private VectorClockHelperClass(){
 	}
-	public static VectorClockService getInstance(){
+	public static VectorClockHelperClass getInstance(){
 		return instance;
 	}
 	

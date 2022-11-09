@@ -15,18 +15,18 @@ public class SendMessageThread extends Thread{
 			for(Integer keyset : this.obj.neighbors.keySet()) {
 				
 				try {
-					PerformanceCalService.getInstance().addSendMessageCount();
-					LamportLogicalClockService.getInstance().sendAction();
-					VectorClockService.getInstance().sendAction();
+					SummaryCalHelperClass.getInstance().addSendMessageCount();
+					ScalarClockHelperClass.getInstance().sendAction();
+					VectorClockHelperClass.getInstance().sendAction();
 					ObjectOutputStream oos = this.obj.neighbors.get(keyset).oos;
 					
 					//if(oos !=null ) {
 						
 						RequestMsg tmp = (RequestMsg) msg;
 					
-						tmp.LogicalClockVal = LamportLogicalClockService.getInstance().getValue();
+						tmp.LogicalClockVal = ScalarClockHelperClass.getInstance().getValue();
 						
-						tmp.VectorClockVal = VectorClockService.getInstance().toString();
+						tmp.VectorClockVal = VectorClockHelperClass.getInstance().toString();
 						
 						msg = tmp;
 					
@@ -52,14 +52,14 @@ public class SendMessageThread extends Thread{
 			for(Integer keyset : this.obj.neighbors.keySet()) {
 				
 				try {
-					LamportLogicalClockService.getInstance().sendAction();
-					VectorClockService.getInstance().sendAction();
+					ScalarClockHelperClass.getInstance().sendAction();
+					VectorClockHelperClass.getInstance().sendAction();
 					ObjectOutputStream oos = this.obj.neighbors.get(keyset).oos;
 					
 					ReleaseMsg tmp = (ReleaseMsg) msg;
 					
-					tmp.LogicalClockVal = LamportLogicalClockService.getInstance().getValue();
-					tmp.VectorClockVal = VectorClockService.getInstance().toString();
+					tmp.LogicalClockVal = ScalarClockHelperClass.getInstance().getValue();
+					tmp.VectorClockVal = VectorClockHelperClass.getInstance().toString();
 					
 					msg = tmp;
 					
@@ -86,14 +86,14 @@ void sendReply(ReplyMsg msg,RequestMsg rmsg) throws InterruptedException{
 			
 				
 				try {
-					LamportLogicalClockService.getInstance().sendAction();
-					VectorClockService.getInstance().sendAction();
+					ScalarClockHelperClass.getInstance().sendAction();
+					VectorClockHelperClass.getInstance().sendAction();
 					ObjectOutputStream oos = this.obj.neighbors.get(rmsg.nodeID).oos;
 					
 					//ReplyMsg tmp = msg;
 					
-					msg.LogicalClockVal = LamportLogicalClockService.getInstance().getValue();
-					msg.VectorClockVal = VectorClockService.getInstance().toString();
+					msg.LogicalClockVal = ScalarClockHelperClass.getInstance().getValue();
+					msg.VectorClockVal = VectorClockHelperClass.getInstance().toString();
 					
 					//System.out.println("Reply Message sent to:"+ rmsg.nodeID);
 					//if(oos!=null) {

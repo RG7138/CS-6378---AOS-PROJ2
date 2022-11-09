@@ -92,19 +92,19 @@ public class AlgoSuperClass {
 					System.out.println("Critical Section Exec. No.: "+(i+1)+" with execution time "+csexect+"and interrequest delay"+randDelay);
 				}
 				
-				MyVector enterCSTimeStamp = MyVector.copy(VectorClockService.getInstance().toString());
+				MyVector enterCSTimeStamp = MyVector.copy(VectorClockHelperClass.getInstance().toString());
 				long enteredCSSystemTime = System.currentTimeMillis();
 				
 				try {
-					VectorClockService.getInstance().tick();
+					VectorClockHelperClass.getInstance().tick();
 					Thread.sleep(csexect);
 				}
 				catch(Exception e) {
 					e.printStackTrace();
 				}
 				
-				PerformanceCalService.getInstance().updateCSTime(requestCSTime, grantedCSTime);
-				MyVector leaveCSTimeStamp = MyVector.copy(VectorClockService.getInstance().toString());			
+				SummaryCalHelperClass.getInstance().updateCSTime(requestCSTime, grantedCSTime);
+				MyVector leaveCSTimeStamp = MyVector.copy(VectorClockHelperClass.getInstance().toString());			
 				long leaveCSSystemTime = System.currentTimeMillis();
 				//System.out.println(leaveCSSystemTime);
 				TimeInterval curTimeInterval =  new TimeInterval(enterCSTimeStamp,enteredCSSystemTime,leaveCSTimeStamp, leaveCSSystemTime, obj.localInfor.nodeId);
@@ -113,7 +113,7 @@ public class AlgoSuperClass {
 				writetofile(filename,curTimeInterval);
 				//System.out.println("Written to file:"+curTimeInterval.toString());
 				
-				VectorClockService.getInstance().tick();
+				VectorClockHelperClass.getInstance().tick();
 				try {
 					lamp.csLeave(obj);
 				} catch (InterruptedException e) {

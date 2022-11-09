@@ -43,7 +43,7 @@ public class LamportMEAlgo{
 			RequestMsg msg = new RequestMsg();
 			msg.nodeID = obj.localInfor.nodeId;
 			
-			obj.localRequestStamp.timeStamp = LamportLogicalClockService.getInstance().getValue();
+			obj.localRequestStamp.timeStamp = ScalarClockHelperClass.getInstance().getValue();
 			
 			msg.timestamp = obj.localRequestStamp.timeStamp;
 			if(!obj.pqueue.contains(msg.nodeID)) {
@@ -130,7 +130,7 @@ public class LamportMEAlgo{
 			ReleaseMsg msg = new ReleaseMsg();
 			msg.nodeID = obj.localInfor.nodeId;
 			
-			int timestamp = LamportLogicalClockService.getInstance().getValue();
+			int timestamp = ScalarClockHelperClass.getInstance().getValue();
 			
 			msg.timestamp = timestamp;
 			
@@ -207,7 +207,7 @@ public class LamportMEAlgo{
 			
 			ReplyMsg rplymsg = new ReplyMsg();
 			rplymsg.nodeID = obj.localInfor.nodeId;
-			rplymsg.timestamp = LamportLogicalClockService.getInstance().getValue();
+			rplymsg.timestamp = ScalarClockHelperClass.getInstance().getValue();
 			
 			try {
 				new SendMessageThread(obj).sendReply(rplymsg,msg);

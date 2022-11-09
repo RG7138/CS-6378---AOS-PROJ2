@@ -1,5 +1,5 @@
 
-public class PerformanceEvaluaterClass {
+public class EvaluaterClass {
 
 	public static void main(String[] args) {
 		
@@ -9,7 +9,7 @@ public class PerformanceEvaluaterClass {
 		
 		numNodes = Integer.parseInt(args[0]);
 		String curDirecotry = System.getProperty("user.dir")+"/";
-		PerformanceFileParser.parseFile(curDirecotry+"performance_file_node_", numNodes,1);
+		FileReader.parseFile(curDirecotry+"performance_file_node_", numNodes,1);
 		System.out.println("Evaluation Complete");
 		}
 
